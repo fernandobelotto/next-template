@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky",
+    "knip": "knip",
+    "test": "vitest --no-watch",
+    "lint-config": "npx @eslint/config-inspector@latest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -61,7 +65,9 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@next/eslint-plugin-next": "^15.1.6",
-    "@types/node": "^20",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^20.17.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4.3.4",
@@ -81,12 +87,15 @@
     "eslint-plugin-testing-library": "^7.1.1",
     "eslint-plugin-unicorn": "^56.0.1",
     "globals": "^15.13.0",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "knip": "^5.43.3",
     "playwright": "^1.44.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.21.0",
     "vite": "^6.0.5",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.8",
     "vitest-browser-react": "^0.0.1"
   }

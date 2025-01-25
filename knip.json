@@ -1,0 +1,34 @@
+{
+  "ignore": [
+    "src/components/**/*"
+  ],
+  "ignoreDependencies": [
+    "@radix-ui/.+",
+    "@hookform/resolvers",
+    "cmdk",
+    "date-fns",
+    "embla-carousel-react",
+    "input-otp",
+    "lucide-react",
+    "next-themes",
+    "react-day-picker",
+    "react-hook-form",
+    "react-resizable-panels",
+    "recharts",
+    "sonner",
+    "vaul",
+    "zod",
+    "@vitejs/plugin-react-swc",
+    "autoprefixer",
+    "eslint-config-next",
+    "eslint-plugin-import",
+    "eslint-plugin-performance",
+    "eslint-plugin-react-refresh",
+    "eslint-plugin-unicorn",
+    "playwright",
+    "vitest-browser-react",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "postcss-load-config"
+    ]
+}
