@@ -24,6 +24,9 @@ jobs:
         
       - name: Run ESLint
         run: npm run lint
+
+      - name: Run Knip
+        run: npm run knip
         
       - name: Run unit tests
         run: npm run test -- --run

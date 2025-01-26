@@ -1,5 +1,5 @@
 {
-	"ignore": ["src/components/**/*"],
+	"ignore": ["src/components/ui/**/*"],
 	"ignoreDependencies": [
 		"@radix-ui/.+",
 		"@hookform/resolvers",

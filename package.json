@@ -19,14 +19,6 @@
 		"cypress:run:headless": "cypress run --headless",
 		"test:e2e": "node scripts/test-e2e.js"
 	},
-	"lint-staged": {
-		"*": [
-			"eslint --fix",
-			"biome format --write --no-errors-on-unmatched --files-ignore-unknown=true",
-			"biome check --no-errors-on-unmatched --files-ignore-unknown=true",
-			"vitest related --run"
-		]
-	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.10.0",
 		"@radix-ui/react-accordion": "^1.2.2",

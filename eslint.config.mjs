@@ -13,7 +13,12 @@ import globals from "globals";
 export default [
 	{
 		files: ["**/*.{ts,tsx}"],
-		ignores: ["dist", "**/*.config.ts", "src/components/ui/**/*"],
+		ignores: [
+			"dist",
+			"**/*.config.ts",
+			"src/components/ui/**/*",
+			".github/**/*",
+		],
 		languageOptions: {
 			parser: parser,
 			parserOptions: {
