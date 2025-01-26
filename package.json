@@ -10,8 +10,12 @@
 		"prepare": "husky",
 		"knip": "knip",
 		"lint-staged": "lint-staged",
-		"test": "vitest --no-watch",
-		"lint-config": "npx @eslint/config-inspector@latest"
+		"test": "vitest --ui",
+		"lint-config": "npx @eslint/config-inspector@latest",
+		"cypress:open": "cypress open",
+		"cypress:run": "cypress run",
+		"cypress:run:headless": "cypress run --headless",
+		"test:e2e": "node scripts/test-e2e.js"
 	},
 	"lint-staged": {
 		"*": [
@@ -83,7 +87,10 @@
 		"@vitejs/plugin-react": "^4.3.4",
 		"@vitejs/plugin-react-swc": "^3.5.0",
 		"@vitest/browser": "^2.1.8",
+		"@vitest/coverage-v8": "2.1.8",
+		"@vitest/ui": "^2.1.8",
 		"autoprefixer": "^10.4.20",
+		"cypress": "^14.0.0",
 		"eslint": "^9.19.0",
 		"eslint-config-next": "15.0.4",
 		"eslint-plugin-import": "^2.31.0",
