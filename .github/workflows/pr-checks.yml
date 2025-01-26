@@ -1,145 +1,40 @@
-name: Pull Request Checks
+name: PR Checks
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     
 jobs:
-  install:
-    name: Install Dependencies
+  code-quality:
+    name: Code Quality & Tests
     runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-          
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build Next.js
-        run: pnpm build
-        
-      - name: List build directory
-        run: ls -la
-        
-      - name: Save build folder
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          if-no-files-found: warn
-          path: |
-            .next/**
-            !.next/cache/**
-          retention-days: 1
-        
-  quality:
-    name: Quality Checks
-    runs-on: ubuntu-24.04
-    needs: install
     
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
           
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci --legacy-peer-deps
         
       - name: Run ESLint
-        run: pnpm run lint
-
-
-  unit-tests:
-    name: Unit Tests
-    runs-on: ubuntu-24.04
-    needs: install
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-          
-      - name: Install dependencies
-        run: pnpm install
+        run: npm run lint
         
-      - name: Run Vitest
-        run: pnpm test -- --run
-        
-  cypress-run:
-    name: E2E Tests
-    runs-on: ubuntu-24.04
-    needs: install
-    container: 
-      image: cypress/browsers:latest
-      options: --user 1001
-    strategy:
-      # don't fail the entire matrix on failure
-      fail-fast: false
-      matrix:
-        # run copies of the current job in parallel
-        containers: [1, 2]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Run unit tests
+        run: npm run test -- --run
 
-      - name: Download the build folder
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: .next
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-          
       - name: Install dependencies
-        run: pnpm install
+        run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: pnpm start
-          wait-on: 'http://localhost:3000'
+          install-command: npm ci --legacy-peer-deps
+          build: npm run build
+          start: npm start
           browser: chrome
-          record: true
-          parallel: true
-          group: 'UI - Chrome'
-        env:
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
-          COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }} 
