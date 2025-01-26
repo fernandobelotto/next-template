@@ -1,8 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Template
+
+A modern, feature-rich Next.js template with best practices and comprehensive tooling for development, testing, and code quality.
+
+## Features
+
+- ⚡️ [Next.js 15](https://nextjs.org/) with React 19
+- 🎨 [Tailwind CSS](https://tailwindcss.com/) for styling
+- 🧩 [Radix UI](https://www.radix-ui.com/) components
+- 🌙 Dark mode support with [next-themes](https://github.com/pacocoursey/next-themes)
+- 🔍 Comprehensive linting and formatting:
+  - [Biome](https://biomejs.dev/) for fast formatting and linting
+  - [ESLint](https://eslint.org/) with multiple plugins for code quality
+  - [lint-staged](https://github.com/lint-staged/lint-staged) for pre-commit hooks
+- ✅ Testing setup:
+  - [Vitest](https://vitest.dev/) for unit and integration tests
+  - [Cypress](https://www.cypress.io/) for end-to-end testing
+  - [Testing Library](https://testing-library.com/) for component testing
+- 📦 [Knip](https://github.com/webpro/knip) for finding unused exports/dependencies
+- 🪝 Git hooks with [Husky](https://typicode.github.io/husky/)
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +46,51 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Available Commands
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
 
-## Learn More
+### Testing
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run test` - Run Vitest tests with UI
+- `npm run cypress:open` - Open Cypress test runner
+- `npm run cypress:run` - Run Cypress tests in terminal
+- `npm run cypress:run:headless` - Run Cypress tests headlessly
+- `npm run test:e2e` - Run end-to-end tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Code Quality
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run lint` - Run ESLint
+- `npm run knip` - Check for unused exports/dependencies
+- `npm run lint-config` - Inspect ESLint configuration
+- `npm run prepare` - Install Husky hooks
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+├── src/
+│   ├── app/          # Next.js app router pages
+│   ├── components/   # React components
+│   └── __tests__/    # Test files
+├── cypress/          # E2E tests
+├── public/          # Static assets
+└── scripts/         # Utility scripts
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+1. Install dependencies
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a pull request
+
+The project uses Husky and lint-staged to automatically run linting, formatting, and tests on staged files before each commit.
+
+## License
+
+This project is licensed under the MIT License.
