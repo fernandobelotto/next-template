@@ -11,6 +11,7 @@
 		"knip": "knip",
 		"lint-staged": "lint-staged",
 		"test": "vitest",
+		"format": "biome format --write .",
 		"test:ui": "vitest --ui",
 		"lint-config": "npx @eslint/config-inspector@latest",
 		"cypress:open": "cypress open",

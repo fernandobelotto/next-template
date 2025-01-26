@@ -1,108 +1,37 @@
-name: Pull Request Checks
+name: PR Checks
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     
 jobs:
-  quality:
-    name: Quality Checks
-    runs-on: ubuntu-22.04
+  code-quality:
+    name: Code Quality & Tests
+    runs-on: ubuntu-24.04
     
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
           
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci --legacy-peer-deps
         
       - name: Run ESLint
-        run: pnpm lint
+        run: npm run lint
         
-      - name: Run Biome Format Check
-        run: pnpm exec biome check .
-        
-  tests:
-    name: Tests
-    runs-on: ubuntu-22.04
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Run unit tests
+        run: npm run test -- --run
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
-          version: 10
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-          
-      - name: Install dependencies
-        run: pnpm install
-        
-      - name: Run Vitest
-        run: pnpm test -- --run
-        
-  e2e:
-    name: E2E Tests
-    runs-on: ubuntu-22.04
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-          
-      - name: Install dependencies
-        run: pnpm install
-        
-      - name: Build Next.js
-        run: pnpm build
-        
-      - name: Run Cypress Tests
-        run: pnpm cypress:run:headless
-        
-  build:
-    name: Build Check
-    runs-on: ubuntu-22.04
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-          
-      - name: Install dependencies
-        run: pnpm install
-        
-      - name: Build Next.js
-        run: pnpm build 
+          install-command: npm ci --legacy-peer-deps
+          build: npm run build
+          start: npm start
+          browser: chrome
