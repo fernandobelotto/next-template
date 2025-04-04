@@ -10,7 +10,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, LayoutDashboard } from "lucide-react";
+import { Bot, Home, LayoutDashboard } from "lucide-react";
 
 const items = [
 	{
@@ -22,6 +22,11 @@ const items = [
 		title: "Dashboard",
 		url: "/dashboard",
 		icon: LayoutDashboard,
+	},
+	{
+		title: "AI Text",
+		url: "/ai-text",
+		icon: Bot,
 	},
 ];
 
