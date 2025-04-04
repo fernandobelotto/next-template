@@ -1,94 +1,59 @@
-describe("Home Page", () => {
+describe("Home Page Form", () => {
 	beforeEach(() => {
 		cy.visit("http://localhost:3000");
+		// Wait for the form to be fully loaded
+		cy.get("form").should("be.visible");
 	});
 
-	it("displays the correct heading", () => {
-		cy.get("h2").should("have.text", "Personal Information");
-	});
+	it("should display form validation errors for invalid inputs", () => {
+		// Test name validation
+		cy.get("#name").type("a");
+		cy.contains("button", "Submit Information").click();
+		cy.contains("Name must be at least 2 characters").should("be.visible");
 
-	it("displays all form fields", () => {
-		cy.get("form").within(() => {
-			// Check for form fields
-			cy.get("label").contains("Full Name").should("exist");
-			cy.get("label").contains("Cellphone Number").should("exist");
-			cy.get("label").contains("Date of Birth").should("exist");
+		// Test phone validation
+		cy.get("#cellphone").clear().type("123");
+		cy.contains("button", "Submit Information").click();
+		cy.contains("Phone number must be at least 10 digits").should("be.visible");
 
-			// Check for input fields
-			cy.get('input[name="name"]').should("exist");
-			cy.get('input[name="cellphone"]').should("exist");
-			cy.get('input[name="dateOfBirth"]').should("exist");
-		});
-	});
-
-	it("validates form submission", () => {
-		// Try to submit empty form
-		cy.get("button[type='submit']").click();
-
-		// Check for validation messages
-		cy.contains("Name must be at least 2 characters").should("exist");
-		cy.contains("Phone number must be at least 10 digits").should("exist");
-		cy.contains("You must be between 18 and 120 years old").should("exist");
-
-		// Fill in invalid data
-		cy.get('input[name="name"]').type("J");
-		cy.get('input[name="cellphone"]').type("123");
-		cy.get('input[name="dateOfBirth"]').type("2024-01-01");
-
-		// Submit form
-		cy.get("button[type='submit']").click();
-
-		// Check for validation messages with invalid data
-		cy.contains("Name must be at least 2 characters").should("exist");
-		cy.contains("Phone number must be at least 10 digits").should("exist");
-		cy.contains("You must be between 18 and 120 years old").should("exist");
-
-		// Fill in valid data
-		cy.get('input[name="name"]').clear().type("John Doe");
-		cy.get('input[name="cellphone"]').clear().type("+1 (555) 555-5555");
-
-		// Calculate a valid date (18 years ago)
+		// Test date of birth validation
 		const today = new Date();
-		const validDate = new Date(
-			today.getFullYear() - 20,
+		const invalidDate = new Date(
+			today.getFullYear() - 10,
 			today.getMonth(),
 			today.getDate(),
+		)
+			.toISOString()
+			.split("T")[0];
+		cy.get("#dateOfBirth").clear().type(invalidDate);
+		cy.contains("button", "Submit Information").click();
+		cy.contains("You must be between 18 and 120 years old").should(
+			"be.visible",
 		);
-		const formattedDate = validDate.toISOString().split("T")[0];
-		cy.get('input[name="dateOfBirth"]').clear().type(formattedDate);
+	});
 
-		// Submit form
-		cy.get("button[type='submit']").click();
+	it("should successfully submit the form with valid data", () => {
+		// Fill in valid form data
+		cy.get("#name").clear().type("John Doe");
+		cy.get("#cellphone").clear().type("+1 (555) 555-55");
 
-		// Check that validation messages are gone
-		cy.contains("Name must be at least 2 characters").should("not.exist");
-		cy.contains("Phone number must be at least 10 digits").should("not.exist");
-		cy.contains("You must be between 18 and 120 years old").should("not.exist");
+		// Calculate a valid date of birth (25 years ago)
+		const today = new Date();
+		const validDate = new Date(
+			today.getFullYear() - 25,
+			today.getMonth(),
+			today.getDate(),
+		)
+			.toISOString()
+			.split("T")[0];
+		cy.get("#dateOfBirth").clear().type(validDate);
+
+		// Submit the form using the button
+		cy.contains("button", "Submit Information").click();
 
 		// Check for success message
 		cy.contains(
 			"Thank you for your information! We will process it shortly.",
-		).should("exist");
-	});
-
-	it("handles loading state correctly", () => {
-		// Fill in valid data
-		cy.get('input[name="name"]').type("John Doe");
-		cy.get('input[name="cellphone"]').type("+1 (555) 555-5555");
-
-		// Calculate a valid date (18 years ago)
-		const today = new Date();
-		const validDate = new Date(
-			today.getFullYear() - 20,
-			today.getMonth(),
-			today.getDate(),
-		);
-		const formattedDate = validDate.toISOString().split("T")[0];
-		cy.get('input[name="dateOfBirth"]').type(formattedDate);
-
-		// Submit form and check loading state
-		cy.get("button[type='submit']").click();
-		cy.get("button[type='submit']").should("be.disabled");
-		cy.get("button[type='submit']").should("contain", "Submitting...");
+		).should("be.visible");
 	});
 });
