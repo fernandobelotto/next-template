@@ -51,6 +51,7 @@ async function main() {
 				stdio: "inherit",
 				shell: true,
 			});
+			console.log("Server started");
 
 			// Wait for server to be ready
 			await new Promise((resolve) => setTimeout(resolve, 5000));

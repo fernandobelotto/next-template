@@ -21,7 +21,7 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<SidebarProvider>
 					<AppSidebar />
-					<main className="flex-1 p-6">
+					<main className="flex-1 p-2">
 						<SidebarTrigger />
 						{children}
 					</main>
