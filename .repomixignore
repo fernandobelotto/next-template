@@ -1,0 +1,11 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+node_modules
+.next
+.vscode
+coverage
+.cert
+.husky
+package-lock.json
