@@ -20,7 +20,18 @@
 		"cypress:run:headless": "cypress run --headless",
 		"test:e2e": "node scripts/test-e2e.js",
 		"generate-vapid-keys": "tsx scripts/generate-vapid-keys.ts",
-		"repomix": "repomix"
+		"repomix": "repomix",
+		"setup": "tsx scripts/setup.ts",
+		"supabase:start": "supabase start",
+		"supabase:stop": "supabase stop",
+		"supabase:reset": "supabase stop && supabase start",
+		"supabase:status": "supabase status",
+		"supabase:db:reset": "supabase db reset",
+		"supabase:db:push": "supabase db push",
+		"supabase:db:pull": "supabase db pull",
+		"supabase:db:dump": "supabase db dump",
+		"supabase:db:restore": "supabase db restore",
+		"supabase:gen:types": "supabase gen types typescript --local > src/lib/supabase/types.ts"
 	},
 	"lint-staged": {
 		"*": [
@@ -71,6 +82,7 @@
 		"cmdk": "^1.1.1",
 		"date-fns": "^4.1.0",
 		"embla-carousel-react": "^8.5.2",
+		"envalid": "^8.0.0",
 		"input-otp": "^1.4.2",
 		"launchdarkly-react-client-sdk": "^3.6.1",
 		"lucide-react": "^0.487.0",
@@ -86,6 +98,7 @@
 		"stripe": "^18.0.0",
 		"tailwind-merge": "^3.1.0",
 		"tailwindcss-animate": "^1.0.7",
+		"tsx": "^4.19.3",
 		"vaul": "^1.1.2",
 		"web-push": "^3.6.7",
 		"zod": "^3.24.2"

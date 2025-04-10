@@ -1,0 +1,34 @@
+name: Edge Functions Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'supabase/functions/**'
+      - 'supabase/tests/**'
+
+jobs:
+  test-functions:
+    name: Test Edge Functions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: latest
+
+      - name: Start Supabase
+        run: supabase start
+
+      - name: Run Function Tests
+        run: deno test --allow-all supabase/tests/functions/**/*.test.ts --env-file .env.local 

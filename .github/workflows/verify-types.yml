@@ -1,0 +1,38 @@
+name: Verify Types
+
+on:
+  pull_request:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'supabase/migrations/**'
+      - 'src/lib/supabase/types.ts'
+
+jobs:
+  verify-types:
+    name: Verify Generated Types
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Initialize Supabase
+        run: supabase init
+
+      - name: Start Database
+        run: supabase db start
+
+      - name: Verify Types
+        run: |
+          supabase gen types typescript --local > src/lib/supabase/types.gen.ts
+          if ! git diff --ignore-space-at-eol --exit-code --quiet src/lib/supabase/types.gen.ts; then
+            echo "Detected uncommitted changes in generated types. See status below:"
+            git diff
+            exit 1
+          fi 

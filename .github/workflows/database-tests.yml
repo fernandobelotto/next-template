@@ -1,0 +1,29 @@
+name: Database Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'supabase/migrations/**'
+      - 'supabase/tests/**'
+
+jobs:
+  test-database:
+    name: Test Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start Supabase
+        run: supabase db start
+
+      - name: Run Database Tests
+        run: supabase test db 
