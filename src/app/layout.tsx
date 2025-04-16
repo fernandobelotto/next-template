@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactQueryProvider } from "@/components/react-query-provider";
 import { AppSidebar } from "@/components/sidebar";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { ThemeProvider } from "@/providers/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,17 +19,25 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body className={inter.className}>
-				<ReactQueryProvider>
-					<SidebarProvider>
-						<AppSidebar />
-						<main className="flex-1 p-2">
-							<SidebarTrigger />
-							{children}
-						</main>
-					</SidebarProvider>
-				</ReactQueryProvider>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<ReactQueryProvider>
+						<SidebarProvider>
+							<AppSidebar />
+							<ThemeToggle />
+							<main className="flex-1 p-2">
+								<SidebarTrigger />
+								{children}
+							</main>
+						</SidebarProvider>
+					</ReactQueryProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
